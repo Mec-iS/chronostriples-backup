@@ -89,14 +89,17 @@ def memcache_articles_by_keyword(kwd):
 
 class ArticlesJSONv1(webapp2.RequestHandler):
     """
-    GET /articles/v04/<name>
-
-    Serve the Articles API.
+    Articles JSON API
     See https://github.com/SpaceAppsXploration/rdfendpoints/wiki/Articles-API
-
-    :param name: define namespace of the request (getting articles or keywords), can be a void string
     """
     def get(self, name):
+        """
+        GET /articles/v04/<name>
+
+        Serve the Articles API.
+
+        :param name: define namespace of the request (getting articles or keywords), can be a void string
+        """
         self.response.headers['Access-Control-Allow-Origin'] = '*'
         self.response.headers['Content-Type'] = 'application/json'
 

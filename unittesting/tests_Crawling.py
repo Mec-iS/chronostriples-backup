@@ -1,7 +1,7 @@
-__author__ = 'lorenzo'
-
 import unittest
-from flankers.Scrawler import Scrawler
+from flankers.scrawler import Scrawler
+
+__author__ = 'lorenzo'
 
 
 class CrawlerTest(unittest.TestCase):
@@ -41,14 +41,22 @@ class CrawlerTest(unittest.TestCase):
         """
         s = Scrawler()
         items = s.load_links()
-        print items
-        for i in xrange(0, 5):
+        print items[0]
+        for i in xrange(0, 1):
             try:
                 item = s.read_feed(items[i])
             except ValueError:
                 continue
+            print item  # this is a list of feeds
             item = self.mock_Item(str(item['title']), str(item['link']), str(item['published_parsed']), str(item['summary'].encode('utf-8')))
             for k, v in item.store().items():
                 print k+': ', v
 
             print "\n"
+
+    def test_feedparser(self):
+        import feedparser
+        d = feedparser.parse('https://aerospaceblog.wordpress.com/feed/')
+        print d
+
+    # look for media types: https://aerospaceblog.wordpress.com/feed/

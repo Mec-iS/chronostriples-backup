@@ -11,6 +11,9 @@ class tagmeapiTest(unittest.TestCase):
     def setUp(self):
         # list of texts
         self.test1 = ["""
+        Ice? Diamonds? Salt-lick for giant nocturnal astro-worms that follow the terminator around the dwarf planet so they're always in darkness (never photographed by NASA's Dawn probe). NASA wants your guess: http://www.jpl.nasa.gov/dawn/world_ceres/
+        New Imagery of the bright spots of the dwarf planet's Occator crater.
+        """, """
         Functional Extravehicular Mobility Units (EMUs) with high precision gloves are essential for the success of Extravehicular Activity (EVA).
         """, """
         The NASA Protoflight Research Initiative is an internal NASA study conducted within the Office of the Chief Engineer to better understand the use of Protoflight within NASA. Extensive literature reviews and interviews with key NASA members with experience in both robotic and human spaceflight missions has resulted in three main conclusions and two observations. The first conclusion is that NASA's Protoflight method is not considered to be "prescriptive." The current policies and guidance allo...
@@ -58,7 +61,7 @@ class tagmeapiTagTest(tagmeapiTest):
             results = return_wikipedia_term(response)
             print i, results
             if i == 0:
-                expected = [u'Functional_(mathematics)', u'Electron_mobility', u'Units_of_measurement', u'Electric_multiple_unit', u'High,_Just-As-High,_and_Third', u'Accuracy_and_precision', u'Glove', u'Essential_Marvel', u'Success_(company)', u'Extra-vehicular_activity', u'Extra-vehicular_activity']
+                expected = [u'Functional_(mathematics)', u'Electron_mobility', u'Units_of_measurement', u'Electric_multiple_unit', u'Accuracy_and_precision', u'Glove', u'Essential_Marvel', u'Success_(company)', u'Extra-vehicular_activity', u'Extra-vehicular_activity']
                 assert results == expected
             elif i == 1:
                 expected = [u'NASA', u'Research', u'Initiative', u'Neijia', u'Research', u'Conducting', u'The_Office_(U.S._TV_series)', u'Engineer', u'Engineer', u'Engineer', u'Understanding', u'Literature_review', u'Interview', u'Key_(music)', u'Member_of_Parliament', u'Experience', u'Robotics', u'Human_spaceflight', u'Mission_(Christianity)', u'Main_(river)', u'Observation', u'World_War_I', u'Entailment', u'NASA', u'Method_(computer_programming)', u'Linguistic_prescription', u'The_Current_(song)', u'Policy', u'Missile_guidance', u'Emic_unit']
@@ -80,6 +83,7 @@ class tagmeapiRelateTest(tagmeapiTest):
             results = []
             for spot in [s['spot'] for s in TagMeService.check_spotting(t)['value']['spots']]:
                 result = TagMeService.retrieve_taggings(spot.encode('utf-8'), method='POST')
+                print result
                 for n in result['annotations']:
                     title = n['title'].replace(' ', '_')  # strip whitespaces from dbpedia tag
                     results.append(TagMeService.relate(title, self.scopes))  # compare the spotted and tagged term to the generic scopes
